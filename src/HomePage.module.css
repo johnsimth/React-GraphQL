@@ -1,0 +1,14 @@
+.LandingContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  min-height: 100%;
+}
+
+.LandingHero {
+  max-width: 600px;
+  margin: 0 auto;
+}

@@ -1,0 +1,87 @@
+.banner {
+  height: 80vh;
+  margin: -12px -24px;
+  position: relative;
+  text-align: center;
+  border-color: #666;
+  background-image: url('/landing.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  /* filter: brightness(50%); */
+}
+.banner .banner-text-wrapper {
+  display: inline-block;
+  position: absolute;
+  top: 15%;
+  margin-left: 10%;
+  left: 0;
+  right: 0;
+  font-size: 14px;
+  color: #fff;
+  width: 550px;
+  text-align: left;
+}
+.banner .banner-text-wrapper > .queue-anim-leaving {
+  position: relative !important;
+}
+.banner .banner-title {
+  min-height: 60px;
+  display: inline-block;
+  font-size: 50px;
+  position: relative;
+}
+.banner .banner-content {
+  margin-bottom: 20px;
+  word-wrap: break-word;
+  min-height: 24px;
+}
+.banner .banner-button {
+  border: 1px solid #fff;
+  color: #fff;
+  background: transparent;
+  box-shadow: 0 0 0 transparent;
+  line-height: 40px;
+  font-size: 16px;
+  height: 40px;
+  transition: background 0.45s cubic-bezier(0.215, 0.61, 0.355, 1),
+    box-shadow 0.45s cubic-bezier(0.215, 0.61, 0.355, 1),
+    -webkit-box-shadow 0.45s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.banner .banner-button:hover {
+  color: #fff;
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 10px rgba(50, 250, 255, 0.75);
+}
+.banner .banner-button:focus {
+  color: #fff;
+  border-color: #fff;
+}
+.banner .banner-button.queue-anim-leaving {
+  width: auto;
+}
+.banner .banner-icon {
+  bottom: 20px;
+  font-size: 24px;
+  position: absolute;
+  left: 50%;
+  margin-left: -12px;
+  color: #fff;
+}
+@media screen and (max-width: 767px) {
+  .banner {
+    background-attachment: inherit;
+  }
+  .banner .banner-text-wrapper {
+    width: 90%;
+    max-width: 550px;
+    margin: auto;
+    text-align: center;
+  }
+  .banner .banner-title {
+    width: 90%;
+    left: 0;
+    font-size: 40px;
+  }
+}

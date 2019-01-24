@@ -1,0 +1,317 @@
+"""A choice to be selected"""
+type Choice implements Node {
+  """The ID of an object"""
+  id: ID!
+
+  """The node ID"""
+  nodeId: String
+
+  """The text of the choice."""
+  text: String
+}
+
+"""A connection to a list of items."""
+type ChoiceConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ChoiceEdge]
+}
+
+"""An edge in a connection."""
+type ChoiceEdge {
+  """The item at the end of the edge."""
+  node: Choice!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+"""A comment on an item"""
+type Comment implements Node {
+  """The ID of an object"""
+  id: ID!
+
+  """The node ID"""
+  nodeId: String
+
+  """The text of the comment."""
+  text: String
+
+  """The time the comment was created."""
+  time: String
+
+  """The poster of the comment"""
+  user: User
+}
+
+"""A connection to a list of items."""
+type CommentConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [CommentEdge]
+}
+
+type CommentCreated implements Event {
+  id: String!
+  version: Long!
+  questionId: String!
+  authorId: String!
+  text: String
+}
+
+"""An edge in a connection."""
+type CommentEdge {
+  """The item at the end of the edge."""
+  node: Comment!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+"""A domain for items to belong to"""
+type Domain implements Node {
+  """The ID of an object"""
+  id: ID!
+  nodeId: String!
+
+  """The name of the domain."""
+  name: String
+}
+
+"""A connection to a list of items."""
+type DomainConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [DomainEdge]
+}
+
+"""An edge in a connection."""
+type DomainEdge {
+  """The item at the end of the edge."""
+  node: Domain!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+interface Event {
+  id: String!
+  version: Long!
+}
+
+"""An exam with questions"""
+type Exam implements Node {
+  """The ID of an object"""
+  id: ID!
+
+  """The name of the exam"""
+  name: String
+  questions(before: String, after: String, first: Int, last: Int): SourceQuestionConnection
+}
+
+"""A connection to a list of items."""
+type ExamConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ExamEdge]
+}
+
+"""An edge in a connection."""
+type ExamEdge {
+  """The item at the end of the edge."""
+  node: Exam!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+"""
+The `Long` scalar type represents non-fractional signed whole numeric values.
+Long can represent values between -(2^63) and 2^63 - 1.
+"""
+scalar Long
+
+type Mutation {
+  createUser(email: String!, firstName: String!, lastName: String!, password: String!): User
+  respondToQuestion(questionId: ID!, choiceId: ID!, confidence: String!, timeTaken: Long!): SourceQuestion
+  commentOnQuestion(questionId: ID!, commentText: String!): SourceQuestion
+  login(email: String!, password: String!): Viewer
+  logout: Viewer
+  createRegistration(email: String!, firstName: String!, lastName: String!, password: String!, trainingLocation: String!, phone: String!): Viewer
+  setExam(examName: String!): Exam
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+type Query {
+  viewer: Viewer
+  sourceQuestion(nodeId: String!, contains: String): SourceQuestion
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+
+  """Fetches objects given their IDs"""
+  nodes(
+    """The IDs of objects"""
+    ids: [ID!]!
+  ): [Node]!
+}
+
+"""A response to a question"""
+type Response implements Node {
+  """The ID of an object"""
+  id: ID!
+  nodeId: String!
+}
+
+"""A connection to a list of items."""
+type ResponseConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ResponseEdge]
+}
+
+"""An edge in a connection."""
+type ResponseEdge {
+  """The item at the end of the edge."""
+  node: Response!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+"""A source question to be answered from the database"""
+type SourceQuestion implements Node {
+  """The ID of an object"""
+  id: ID!
+
+  """The nodeId of the question."""
+  nodeId: String
+
+  """The uuid of the question."""
+  uuid: String
+
+  """The source of the question."""
+  source: String
+
+  """The year of publication."""
+  year: Int
+
+  """The paper number it came from."""
+  paper: Int
+  domains(before: String, after: String, first: Int, last: Int): DomainConnection
+
+  """The text of the question."""
+  text: String
+
+  """An image if referenced."""
+  image: String
+
+  """The answer to the question"""
+  answer: Choice
+  choiceList(before: String, after: String, first: Int, last: Int): ChoiceConnection
+  comments(before: String, after: String, first: Int, last: Int): CommentConnection
+
+  """The concise textual explanation"""
+  explanationText: String
+
+  """A link to a google doc explanation"""
+  explanationDoc: String
+  allResponses(before: String, after: String, first: Int, last: Int): ResponseConnection
+
+  """The first chosen option"""
+  firstChoice: Choice
+}
+
+"""A connection to a list of items."""
+type SourceQuestionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [SourceQuestionEdge]
+}
+
+"""An edge in a connection."""
+type SourceQuestionEdge {
+  """The item at the end of the edge."""
+  node: SourceQuestion!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+type Subscription {
+  commentCreated: CommentCreated!
+  allEvents: Event!
+}
+
+"""A user of the site"""
+type User implements Node {
+  """The ID of an object"""
+  id: ID!
+
+  """The uuid of the user."""
+  uuid: String
+
+  """The node id of the user."""
+  nodeId: Long!
+
+  """The first name of the user"""
+  firstName: String!
+
+  """The last name of the user"""
+  lastName: String!
+
+  """The email of the user"""
+  email: String!
+
+  """The token of the user"""
+  token: String!
+  exams(before: String, after: String, first: Int, last: Int): ExamConnection
+
+  """The current exam"""
+  currentExam: Exam
+}
+
+"""The view of the current logged in user"""
+type Viewer implements Node {
+  """The ID of an object"""
+  id: ID!
+
+  """The current logged in user"""
+  user: User
+}
+

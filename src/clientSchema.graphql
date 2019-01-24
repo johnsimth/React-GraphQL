@@ -1,0 +1,13 @@
+extend type SourceQuestion {
+  chosenOption: String
+  responseSubmitted: Boolean
+}
+
+extend type User {
+  loggedIn: Boolean!
+  #token: String
+}
+
+extend type Exam {
+  currentQuestionIndex: Int
+}
